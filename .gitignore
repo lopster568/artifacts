@@ -1,1 +1,5 @@
+# Ignore real environment files
 .env
+
+# Allow sample template
+!.env.sample
