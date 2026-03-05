@@ -1,0 +1,1001 @@
+{
+  "name": "DSA",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 11
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2dafa641-a7de-4468-818b-f5e30d00e26c",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appa9I5tjbGpfRj3S",
+          "mode": "list",
+          "cachedResultName": "Leetcode",
+          "cachedResultUrl": "https://airtable.com/appa9I5tjbGpfRj3S"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblTy1XLQtUc1lFI7",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appa9I5tjbGpfRj3S/tblTy1XLQtUc1lFI7"
+        },
+        "filterByFormula": "={Status} = \"Pending\"",
+        "returnAll": false,
+        "limit": 1,
+        "options": {},
+        "sort": {
+          "property": [
+            {
+              "field": "Date"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "3fbbce9f-e81c-4ea7-9e91-63b0eb85ca63",
+      "name": "Search records",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "8VI5yppRhQtFkbPU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1452870752402669754",
+          "mode": "list",
+          "cachedResultName": "System",
+          "cachedResultUrl": "https://discord.com/channels/1452870752402669754"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1467042504200425706",
+          "mode": "list",
+          "cachedResultName": "daily-dsa",
+          "cachedResultUrl": "https://discord.com/channels/1452870752402669754/1467042504200425706"
+        },
+        "content": "=⭐ Daily DSA Problem ⭐ {{ $json.Date }}\n\n📌 Category: {{ $json['Topic/Category'] }},\n🧠 Problem: {{ $json['Question Title'] }},\n⚡ Difficulty: {{ $json.Difficulty }} ,\n🔗 url: {{ $json.URL }}\n\n📖 Problem Description:,\n{{ $json['Question Description'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "id": "4e2ab72d-07c7-4dea-a4d1-bc7bd9b88b96",
+      "name": "Send a message",
+      "webhookId": "d7b94c0a-7cf9-4886-bfdf-7795c1963e64",
+      "credentials": {
+        "discordBotApi": {
+          "id": "0KhdREXNREJ5HkIi",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appa9I5tjbGpfRj3S",
+          "mode": "list",
+          "cachedResultName": "Leetcode",
+          "cachedResultUrl": "https://airtable.com/appa9I5tjbGpfRj3S"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblTy1XLQtUc1lFI7",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appa9I5tjbGpfRj3S/tblTy1XLQtUc1lFI7"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Search records').item.json.id }}",
+            "Discord Message ID": "={{ $json.id }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Assignee",
+              "displayName": "Assignee",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Todo",
+                  "value": "Todo"
+                },
+                {
+                  "name": "In progress",
+                  "value": "In progress"
+                },
+                {
+                  "name": "Done",
+                  "value": "Done"
+                },
+                {
+                  "name": "Pending",
+                  "value": "Pending"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Attachments",
+              "displayName": "Attachments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Question Title",
+              "displayName": "Question Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Question Description",
+              "displayName": "Question Description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Difficulty",
+              "displayName": "Difficulty",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Easy",
+                  "value": "Easy"
+                },
+                {
+                  "name": "Medium",
+                  "value": "Medium"
+                },
+                {
+                  "name": "Hard",
+                  "value": "Hard"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Topic/Category",
+              "displayName": "Topic/Category",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Discord Message ID",
+              "displayName": "Discord Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Question ID",
+              "displayName": "Question ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Complete",
+              "displayName": "Complete",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Complete",
+                  "value": "Complete"
+                },
+                {
+                  "name": "Not Complete",
+                  "value": "Not Complete"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "ec4a1a5b-f99d-40aa-93b4-71c3bd6b292d",
+      "name": "Update record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "8VI5yppRhQtFkbPU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 23,
+              "triggerAtMinute": 59
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        560
+      ],
+      "id": "8096870e-4ea4-40bc-b40a-5da1cdddb319",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "get",
+        "guildId": {
+          "__rl": true,
+          "value": "1452870752402669754",
+          "mode": "list",
+          "cachedResultName": "System",
+          "cachedResultUrl": "https://discord.com/channels/1452870752402669754"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1467042504200425706",
+          "mode": "list",
+          "cachedResultName": "daily-dsa",
+          "cachedResultUrl": "https://discord.com/channels/1452870752402669754/1467042504200425706"
+        },
+        "messageId": "={{ $json['Discord Message ID'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        672,
+        320
+      ],
+      "id": "7d54d853-cfa9-465c-95e1-5cd632d163d7",
+      "name": "Get a message",
+      "webhookId": "37adf40a-6588-460f-ac60-e59eaa42a0a9",
+      "credentials": {
+        "discordBotApi": {
+          "id": "0KhdREXNREJ5HkIi",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appa9I5tjbGpfRj3S",
+          "mode": "list",
+          "cachedResultName": "Leetcode",
+          "cachedResultUrl": "https://airtable.com/appa9I5tjbGpfRj3S"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblTy1XLQtUc1lFI7",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appa9I5tjbGpfRj3S/tblTy1XLQtUc1lFI7"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Search records2').item.json.id }}",
+            "Status": "Done"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Assignee",
+              "displayName": "Assignee",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Todo",
+                  "value": "Todo"
+                },
+                {
+                  "name": "In progress",
+                  "value": "In progress"
+                },
+                {
+                  "name": "Done",
+                  "value": "Done"
+                },
+                {
+                  "name": "Pending",
+                  "value": "Pending"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachments",
+              "displayName": "Attachments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Question Title",
+              "displayName": "Question Title",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Question Description",
+              "displayName": "Question Description",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Difficulty",
+              "displayName": "Difficulty",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Easy",
+                  "value": "Easy"
+                },
+                {
+                  "name": "Medium",
+                  "value": "Medium"
+                },
+                {
+                  "name": "Hard",
+                  "value": "Hard"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Topic/Category",
+              "displayName": "Topic/Category",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Discord Message ID",
+              "displayName": "Discord Message ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Question ID",
+              "displayName": "Question ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Complete",
+              "displayName": "Complete",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Complete",
+                  "value": "Complete"
+                },
+                {
+                  "name": "Not Complete",
+                  "value": "Not Complete"
+                }
+              ],
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1120,
+        224
+      ],
+      "id": "78e5f780-b13a-4023-9852-96a19226ff52",
+      "name": "Update record1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "8VI5yppRhQtFkbPU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "guildId": {
+          "__rl": true,
+          "value": "1452870752402669754",
+          "mode": "list",
+          "cachedResultName": "System",
+          "cachedResultUrl": "https://discord.com/channels/1452870752402669754"
+        },
+        "channelId": {
+          "__rl": true,
+          "value": "1467053939907100693",
+          "mode": "list",
+          "cachedResultName": "reminders",
+          "cachedResultUrl": "https://discord.com/channels/1452870752402669754/1467053939907100693"
+        },
+        "content": "=❄️Your streak is dying dawg\n🔥Keep your streak up\n\n{{ $('Get a message').item.json.content }}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        416
+      ],
+      "id": "ed37a2ad-ef28-4b81-8d54-3b85988824d3",
+      "name": "Send a message1",
+      "webhookId": "d8356daa-447e-48df-b138-e1d940daba9d",
+      "credentials": {
+        "discordBotApi": {
+          "id": "0KhdREXNREJ5HkIi",
+          "name": "Discord Bot account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        584
+      ],
+      "id": "2a42838c-bb97-4ec1-9068-a9088df691fb",
+      "name": "Wait",
+      "webhookId": "19a301d0-1341-431d-b391-9e9ec3de6b2c"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        448,
+        560
+      ],
+      "id": "8c1c1847-bdfa-47cd-8c5c-83d25b98c257",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6607820b-dc5f-445e-a8bf-0d82e8f7071c",
+              "leftValue": "={{ $json.reactions.some(r => r.emoji.name === \"✅\") }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        320
+      ],
+      "id": "9fcc518b-2e0b-44ff-8e2e-8b5793592be3",
+      "name": "Check Emoji"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appa9I5tjbGpfRj3S",
+          "mode": "list",
+          "cachedResultName": "Leetcode",
+          "cachedResultUrl": "https://airtable.com/appa9I5tjbGpfRj3S"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblTy1XLQtUc1lFI7",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appa9I5tjbGpfRj3S/tblTy1XLQtUc1lFI7"
+        },
+        "filterByFormula": "AND(   {Status} = \"Pending\",   NOT({Discord Message ID} = BLANK()) )",
+        "returnAll": false,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        224,
+        560
+      ],
+      "id": "c7effd28-1a7f-4622-9fc9-40f7513604fa",
+      "name": "Search records2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "8VI5yppRhQtFkbPU",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1344,
+        392
+      ],
+      "id": "620bb3bf-be3d-4f43-ba6f-2f6fc22d9434",
+      "name": "Wait1",
+      "webhookId": "f52d6165-ed7f-4a58-be38-97938ed144a0"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Update record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Search records2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a message": {
+      "main": [
+        [
+          {
+            "node": "Check Emoji",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Get a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Emoji": {
+      "main": [
+        [
+          {
+            "node": "Update record1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update record1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1
+  },
+  "versionId": "f3f8b841-8ad2-4bd9-9312-184c769a4586",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "642d9792af72c391e9e4d4ffad9ab4e13152a326adfa361cdc2323cc2ba6387e"
+  },
+  "id": "2Kf64KLiP19H1tRK",
+  "tags": [
+    {
+      "updatedAt": "2026-02-26T18:33:32.581Z",
+      "createdAt": "2026-02-26T18:33:32.581Z",
+      "id": "0RsFEOPrOUeK5kgL",
+      "name": "working"
+    }
+  ]
+}

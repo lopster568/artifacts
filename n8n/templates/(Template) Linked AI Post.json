@@ -1,0 +1,1814 @@
+{
+  "name": "(Template) Linked AI Post",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate materials for my next LinkedIn post.\n\nHere is the idea that we've already generated: {{ $json.Idea }}.\n\nCome up with a new, super valuable and concrete post, and prepare all the needed materials for it:\n- idea\n- title\n- text\n- image description\n\nMake sure to use 2-3 emojis wherever relevant, try to use bullet points (only if necessary). \n\nDo not use formatting characters such as \"** or _\" to style the text, instead use formatted text such as \nbold - 𝘀𝗮𝗺𝗽𝗹𝗲, italic - 𝘴𝘢𝘮𝘱𝘭𝘦, bold italic - 𝙨𝙖𝙢𝙥𝙡𝙚\n\nTarget audience: {{ $json['Audience Segment'].value }}\n\nBegin:",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=SCENARIO:\nI run a LinkedIn page for imcoded, an edtech platform focused on premium, personalized 1-on-1 coding education.\nMy audience includes beginners, students, career switchers, aspiring developers, CS students, working professionals upskilling in tech, and parents researching tech education.\n\nMy goal is to help them build real-world, job-ready coding skills through practical, confidence-building content about learning to code, mastering fundamentals, and succeeding in tech careers.\n\nCONTENT BUCKETS (each post must belong to exactly ONE):\n\nTimeless principle: learning and mastery concepts (deliberate practice, fundamentals first, mentorship, consistency).\n\nCase study: realistic learning journeys with outcomes.\n\nGrowth hack: modern, practical tactics to learn faster, with a clear reason why they work.\n\nContraversial ad: bold but respectful education takes that challenge common beliefs.\n\nOUTPUT REQUIREMENTS\nGenerate a 200–300 word LinkedIn post in VALID JSON:\n\n{\n\"name\": \"\",\n\"idea\": \"\",\n\"title\": \"\",\n\"text\": \"\",\n\"image\": \"\"\n}\n\nname\nShort internal name, < 50 characters.\n\nidea\nMax 3 sentences.\nMust start with one category exactly:\nTimeless principle:\nCase study:\nGrowth hack:\nContraversial ad:\n\ntitle\nThe first sentence of the post.\n< 80 characters.\nUltra scroll-stopping.\n\nTEXT RULES\n\nThe post MUST open with a scroll-stopping hook in 1–2 short lines.\nThe hook must:\n\nCreate tension or a bold realization\n\nBe skimmable in under 2 seconds\n\nFeel like a truth people avoid\n\nNever start with soft storytelling or long questions\n\nUse short lines and spacing.\nNo paragraph longer than 2 lines.\nMobile readability is mandatory.\n\nPost structure:\nHook\n(blank line)\nContext\n(blank line)\nStory or example\n(blank line)\nInsight\n(blank line)\nPractical takeaway or mindset shift\n\nTone:\n\nConfident\n\nPractical\n\nBeginner-friendly\n\nPremium education, not hype\n\nThe post must:\n\nLead to a coding, education, or career insight\n\nReward the reader with clarity, confidence, or action\n\nFeel human, grounded, and realistic\n\nIMAGE DESCRIPTION RULES\n\nDescribe a minimalistic, instantly understandable, emotionally relatable image.\nThe image must support the post idea at a glance and match a premium 1-on-1 tutoring brand.\n\nBrand mood:\n\nHuman\n\nWarm\n\nTrustworthy\n\nProfessional\n\nCalm\n\nEducation-first, not AI-first\n\nVisual rules:\n\nPrefer light or neutral backgrounds\n\nDark backgrounds allowed ONLY for Contraversial ad posts\n\nRealistic photography style or real humans\n\nNatural lighting, soft shadows, clean environments\n\nReal desks, real laptops, real study setups\n\nAvoid completely:\n\nNeon lighting\n\nSci-fi visuals\n\nCyberpunk aesthetics\n\n3D characters\n\nGlowing arrows or effects\n\nDark grainy “AI poster” look\n\nComposition:\n\nSimple layout\n\nOne strong visual idea\n\nClear emotional contrast (confusion → clarity, alone → guided, stuck → progressing)\n\nMust feel parent-safe, student-friendly, and credibility-driven\n\nReplace “ultra-hooking image” with:\n“Instantly understandable and emotionally relatable image.”\n\nDO NOT generate only generic stock-style images be creative and the image SHOULD ALWAYS be personalized to the given idea. \n\nHOOK INSTRUCTION (STRICT):\nAlways begin with a bold 1–2 line hook such as:\n\n“Watching tutorials feels productive. It isn’t.”\n\n“Most beginners don’t fail at coding. They fail alone.”\n\n“Your problem isn’t intelligence. It’s isolation.”\n\n“The internet taught you coding the slow way.”\n\nNo soft openings.\nNo long setup before the hook.\nNo paragraph blocks."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1280,
+        -48
+      ],
+      "id": "01d521c1-5b20-4c71-bb24-2cdc6e4777a3",
+      "name": "Idea Generator",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"name\": \"name\",\n    \"idea\": \"idea\",\n    \"title\": \"title\",\n    \"text\": \"text\",\n    \"image\": \"image\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1424,
+        192
+      ],
+      "id": "4c65cf8c-de70-4e2e-99d5-fb3776d05fa8",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data[0].b64_json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        832,
+        1296
+      ],
+      "id": "808b952e-e4b1-4aa7-b331-bd9c9a3d0129",
+      "name": "Convert to File",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 5
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        384,
+        64
+      ],
+      "id": "0b4d258d-af3f-4e28-b38c-ff8e5f67c836",
+      "name": "Schedule"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get all incoming items\nconst items = $input.all();\n\n// Extract the text field from each item\nconst texts = items.map(item => item.json.idea);\n\n// Concatenate them (adjust the separator as needed)\nconst concatenated = texts.join(\", \");\n\n// Return a single item with the concatenated text\nreturn [{ json: { mergedText: concatenated } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        1520
+      ],
+      "id": "9cd091dd-8186-4047-9a29-970282f51e26",
+      "name": "Join Ideas",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.twitter",
+      "typeVersion": 2,
+      "position": [
+        384,
+        624
+      ],
+      "id": "89d6cbb6-0014-4388-9acc-4ebafd7ef280",
+      "name": "X",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8a4260ba-3bde-4444-8f42-8a8abd51ff0c",
+              "name": "ImageURL",
+              "type": "string",
+              "value": "={{ $json.output }}"
+            },
+            {
+              "id": "1953ae03-6a86-4847-8686-5a928637be1d",
+              "name": "Caption",
+              "type": "string",
+              "value": "={{ $('3c. Generate Post Caption (Gemini)').item.json.output.Caption }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2b2eba87-9ffb-4111-b2c3-3440aae01e20",
+      "name": "Prepare Data for Instagram API",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        384,
+        1072
+      ],
+      "typeVersion": 3.4,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v22.0",
+        "node": "17841473009917118",
+        "edge": "media",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "caption",
+                "value": "={{ $json.Caption }}"
+              },
+              {
+                "name": "image_url",
+                "value": "={{ $json.ImageURL }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "168d5ffe-840b-42c4-808d-02e1c7c2c265",
+      "name": "Create Instagram Media Container",
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "position": [
+        608,
+        1072
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "id": "a62c888d-c474-45e4-8c85-d847d434b0c6",
+      "name": "Wait for Container Processing",
+      "type": "n8n-nodes-base.wait",
+      "position": [
+        832,
+        1072
+      ],
+      "webhookId": "9a6fc129-05ae-4812-8c67-49c1f6115104",
+      "typeVersion": 1.1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v22.0",
+        "node": "17841473009917118",
+        "edge": "media_publish",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "creation_id",
+                "value": "={{ $json.id }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "3eaffa14-5f9c-4efa-a61f-d20f3dbb251d",
+      "name": "Publish Post to Instagram",
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "position": [
+        1056,
+        1072
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## JUNK",
+        "height": 868,
+        "width": 1376
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        192,
+        816
+      ],
+      "typeVersion": 1,
+      "id": "f089c768-775b-46fe-bed6-b0a17d429b98",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/images/edits",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-image-1"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "prompt",
+              "value": "=You're a professional graphic designer.\n\nMake a new image in the style very very similar to the reference.\n\nCopy the style, spacing, minimalistic structure, especially copy the FONTS, and everything else.\n\nUse black and dark grainy film (mainly for the background), white and salad green (#cff150).\n\nMake the image super aestetic and minimalistic.\n\nMake it vertical 3x4.\n\nIt will be an image for a LinkedIn post.\n\nHere is the description of the new image:\n{{ $('Idea Generator').item.json.output.image }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        608,
+        1296
+      ],
+      "id": "3225396c-a74f-4e58-b4ed-d15fa82e6b22",
+      "name": "OpenAI Image",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "=https://drive.google.com/file/d/1wm4anhC6ygXl4ZJAjJryWfEXTG-VeH8s/view?usp=sharing",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        384,
+        1296
+      ],
+      "id": "f9e002d9-ba91-4f56-8306-cc93ad7fdfae",
+      "name": "Image Style",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1-F3ZioIs3oWOKMyDPMuquaH-qiuaZs6qdZXP-yNeRbs",
+          "mode": "list",
+          "cachedResultName": "AI Posts Content Machine",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-F3ZioIs3oWOKMyDPMuquaH-qiuaZs6qdZXP-yNeRbs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-F3ZioIs3oWOKMyDPMuquaH-qiuaZs6qdZXP-yNeRbs/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        384,
+        1520
+      ],
+      "id": "f0049a4a-069c-4bba-9754-43f69cdb281f",
+      "name": "Get Past Ideas",
+      "alwaysOutputData": true,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Idea Generator').item.json.output.name }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1PZW0Hef8yKwKtBZuRxZAMkakzdyyP0iZ",
+          "mode": "list",
+          "cachedResultName": "AI Posts Content Machine",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1PZW0Hef8yKwKtBZuRxZAMkakzdyyP0iZ"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1056,
+        1296
+      ],
+      "id": "6ef44615-46c1-4c2c-830f-84ca2fa19de4",
+      "name": "Save Image",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1-F3ZioIs3oWOKMyDPMuquaH-qiuaZs6qdZXP-yNeRbs",
+          "mode": "list",
+          "cachedResultName": "AI Posts Content Machine",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-F3ZioIs3oWOKMyDPMuquaH-qiuaZs6qdZXP-yNeRbs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Posts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-F3ZioIs3oWOKMyDPMuquaH-qiuaZs6qdZXP-yNeRbs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $('Idea Generator').item.json.output.name }}",
+            "idea": "={{ $('Idea Generator').item.json.output.idea }}",
+            "text": "={{ $('Idea Generator').item.json.output.text }}",
+            "image": "={{ $json.webViewLink.replace(/usp=[^&]+/, 'usp=sharing') }}",
+            "status": "review"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "idea",
+              "displayName": "idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "image",
+              "displayName": "image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1280,
+        1296
+      ],
+      "id": "7baae84f-0855-4673-a79b-72207d27aa32",
+      "name": "Save Post",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        384,
+        400
+      ],
+      "id": "a34a913c-434d-44f8-a3d2-e86d5a198486",
+      "name": "Schedule 2"
+    },
+    {
+      "parameters": {
+        "postAs": "organization",
+        "organization": "82155966",
+        "text": "={{ $('Pick One').item.json.body }}",
+        "shareMediaCategory": "IMAGE",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.linkedIn",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        400
+      ],
+      "id": "9a67a6e6-ccd5-4ddc-8ceb-1f41ff02b103",
+      "name": "Publish Post",
+      "credentials": {
+        "linkedInOAuth2Api": {
+          "id": "vRXg95tM2ZVa223z",
+          "name": "LinkedIn account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fada1335-ca80-4b9b-a141-d7b8e61d18b5",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "In progress",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        832,
+        400
+      ],
+      "id": "da1ffb92-eeb7-4392-b3d2-fbc11b092eec",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first();\n\nitem.json.myNewField = 1;\n\nreturn [item];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1056,
+        400
+      ],
+      "id": "d5b40a17-0eff-4b88-adf3-96c87a4871c9",
+      "name": "Pick One"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "apperWZCX3nJkpTFC",
+          "mode": "list",
+          "cachedResultName": "LinkedIn Imcoded",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBhJgwmseHH9t7H",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC/tblBhJgwmseHH9t7H"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        608,
+        64
+      ],
+      "id": "a0d90e33-be5b-4205-8e96-edfb982ed985",
+      "name": "Search records1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "SOd9FfBMwWdxWim0",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.first();\n\nitem.json.myNewField = 1;\n\nreturn [item];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1056,
+        64
+      ],
+      "id": "ae227eea-6384-498b-a771-eeca777869c4",
+      "name": "Pick One1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        192
+      ],
+      "id": "3921c940-afe1-4ec4-977d-a6252aa5a3ea",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Ozg5S0GqmEPM3LRU",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "apperWZCX3nJkpTFC",
+          "mode": "list",
+          "cachedResultName": "LinkedIn Imcoded",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBhJgwmseHH9t7H",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC/tblBhJgwmseHH9t7H"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Pick One1').item.json.id }}",
+            "Attachments": "=[]",
+            "Notes": "={{ $json.secure_url }}",
+            "Status": "In progress",
+            "body": "={{ $('Idea Generator').item.json.output.text }}",
+            "Name": "={{ $('Idea Generator').item.json.output.title }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Assignee",
+              "displayName": "Assignee",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Todo",
+                  "value": "Todo"
+                },
+                {
+                  "name": "In progress",
+                  "value": "In progress"
+                },
+                {
+                  "name": "Done",
+                  "value": "Done"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachments",
+              "displayName": "Attachments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Idea",
+              "displayName": "Idea",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Virality Potential",
+              "displayName": "Virality Potential",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Recommended Content Format",
+              "displayName": "Recommended Content Format",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Audience Segment",
+              "displayName": "Audience Segment",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        2080,
+        64
+      ],
+      "id": "02621173-b45e-49c2-8bf6-e4e206101b62",
+      "name": "Update record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "SOd9FfBMwWdxWim0",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "apperWZCX3nJkpTFC",
+          "mode": "list",
+          "cachedResultName": "LinkedIn Imcoded",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBhJgwmseHH9t7H",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC/tblBhJgwmseHH9t7H"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        608,
+        400
+      ],
+      "id": "4684026b-7d4f-49e7-9162-511e093eeb44",
+      "name": "Search records",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "SOd9FfBMwWdxWim0",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "apperWZCX3nJkpTFC",
+          "mode": "list",
+          "cachedResultName": "LinkedIn Imcoded",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBhJgwmseHH9t7H",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC/tblBhJgwmseHH9t7H"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Pick One').item.json.id }}",
+            "Notes": "={{ $json.url }}",
+            "Status": "Done",
+            "Name": "="
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Assignee",
+              "displayName": "Assignee",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Todo",
+                  "value": "Todo"
+                },
+                {
+                  "name": "In progress",
+                  "value": "In progress"
+                },
+                {
+                  "name": "Done",
+                  "value": "Done"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachments",
+              "displayName": "Attachments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Idea",
+              "displayName": "Idea",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Virality Potential",
+              "displayName": "Virality Potential",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Recommended Content Format",
+              "displayName": "Recommended Content Format",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Audience Segment",
+              "displayName": "Audience Segment",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1728,
+        400
+      ],
+      "id": "a56f35c6-3bd7-4b73-a9a2-0c35fb201c33",
+      "name": "Update record1",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "SOd9FfBMwWdxWim0",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Add a new field called 'myNewField' to the JSON of the item\n$input.item.json.myNewField = 1;\n\nlet url = $input.item.json.data.text\n\nif (typeof url === 'string') {\n  const match = url.match(/\\/d\\/([^/]+)/);\n  if (match) {\n    url =\n      `https://drive.usercontent.google.com/download?id=${match[1]}`;\n  }\n}\n\nreturn {url: url};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        384,
+        848
+      ],
+      "id": "6d471839-f3bd-4f3e-beb1-62b3fb7453c8",
+      "name": "Turn drive link to drive content link"
+    },
+    {
+      "parameters": {
+        "content": "## Generate content on planned idea\n",
+        "height": 96
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        32
+      ],
+      "typeVersion": 1,
+      "id": "f931542f-d6e1-4613-b3a4-daeef85446c2",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Post the content",
+        "height": 96,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        464
+      ],
+      "typeVersion": 1,
+      "id": "5c5fa6e7-189e-490e-a12b-1928324b453c",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3.1-flash-image-preview",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3.1-flash-image-preview"
+        },
+        "prompt": "={{ $json.output.image }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1632,
+        64
+      ],
+      "id": "efe51cc5-d747-4d4c-9898-56ac9c7f4524",
+      "name": "Generate an image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "yCMPoqySfQDLrvM4",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cloudinary.com/v1_1/ddp1yvwjw/image/upload",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "cloudinaryApi",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "transformation",
+              "value": "fl_force_strip"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1856,
+        64
+      ],
+      "id": "9b9dfb63-0bf2-4768-ab78-94c4405bc021",
+      "name": "HTTP Request1",
+      "credentials": {
+        "cloudinaryApi": {
+          "id": "B0eC6PI12TMBPohH",
+          "name": "Cloudinary account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fada1335-ca80-4b9b-a141-d7b8e61d18b5",
+              "leftValue": "={{ $json.Status }}",
+              "rightValue": "Todo",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        832,
+        64
+      ],
+      "id": "5daca892-eea4-407c-b497-49681b0e88de",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Pick One').item.json.Notes }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1280,
+        400
+      ],
+      "id": "a7dc1bc5-45f0-4c1c-a531-59ac7f8d6e9a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "apperWZCX3nJkpTFC",
+          "mode": "list",
+          "cachedResultName": "LinkedIn Imcoded",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBhJgwmseHH9t7H",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC/tblBhJgwmseHH9t7H"
+        },
+        "returnAll": false,
+        "limit": 10,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        640,
+        -400
+      ],
+      "id": "5699c620-0eef-4d21-aa0f-e1d89e33aa31",
+      "name": "Search records2",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "SOd9FfBMwWdxWim0",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate a completely new LinkedIn post concept.\n\nBelow is a list of ideas that have already been used. Do NOT repeat, paraphrase, or slightly modify these ideas. Your task is to create a fresh and distinct concept.\n\nExisting ideas (Critical: Do not repeat the same idea but get a gist of the conent) :\n{{ $json.ideas }}\n\nCreate a new high-value LinkedIn post and prepare all materials for it:\n\n* idea (a concise concept for the post)\n* title (short and attention-grabbing)\n* text (the full LinkedIn post content)\n* image description (clear description for generating or designing the accompanying visual)\n\nGuidelines:\n\n* The idea must be clearly different from the existing ones.\n* Focus on delivering practical value, insight, or a concrete takeaway.\n* Use 2–3 emojis where they naturally enhance the message.\n* Use bullet points only if they improve clarity.\n* Do not use formatting characters such as ** or _. Instead use formatted Unicode text styles:\n  bold – 𝗲𝘅𝗮𝗺𝗽𝗹𝗲\n  italic – 𝘦𝘹𝘢𝘮𝘱𝘭𝘦\n  bold italic – 𝙚𝙭𝙖𝙢𝙥𝙡𝙚\n\nReturn the result clearly structured with the following sections:\nIdea:\nTitle:\nText:\nImage description:\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are an AI assistant responsible for generating original LinkedIn post concepts for an edtech brand.\n\nYour role in the workflow is idea generation only.\nYou must NOT generate the full LinkedIn post, title, or image description.\n\nYour output must only define the concept metadata that will later be expanded into a full post.\n\nBrand Context\n\nThe LinkedIn page represents imcoded, a premium education platform focused on personalized 1-on-1 coding mentorship.\n\nThe brand helps learners develop real-world coding ability, confidence, and job-ready skills.\n\nContent should emphasize:\n\nreal learning\n\nmentorship\n\nclarity\n\nfundamentals\n\npractical progress\n\nconfidence building\n\nAvoid hype, shortcuts, or unrealistic claims.\n\nTone should feel professional, grounded, and insight-driven.\n\nTarget Audience\n\nContent should resonate with one of the following groups:\n\nbeginners learning to code\n\nCS students\n\naspiring developers\n\ncareer switchers\n\nprofessionals upskilling in tech\n\nparents researching coding education\n\nContent Buckets\n\nEvery idea must belong to exactly one category:\n\nTimeless principle\nFundamental truths about learning, mastery, mentorship, or skill development.\n\nCase study\nA realistic learning journey or transformation.\n\nGrowth hack\nA practical tactic that accelerates learning and explains why it works.\n\nContraversial ad\nA bold but respectful opinion that challenges common beliefs about coding education.\n\nInput\n\nYou will receive a list of previously used ideas:\n\n{{ $json.ideas }}\n\nThese ideas are off limits.\n\nDo NOT:\n\nrepeat them\n\nparaphrase them\n\ngenerate slight variations\n\nreuse the same core theme\n\nFirst analyze the existing ideas and identify their themes or concepts, then generate ideas that explore new conceptual territory.\n\nOutput Fields\n\nFor each concept generate:\n\nIdea\nMax 3 sentences.\n\nThe idea MUST begin with one of these prefixes exactly:\n\nTimeless principle:\nCase study:\nGrowth hack:\nContraversial ad:\n\nThe idea should clearly describe the core concept of the post, not the full story.\n\nRecommended Content Format\n\nExamples:\n\nShort story post\n\nCarousel\n\nVisual comparison\n\nEducational breakdown\n\nMentor insight\n\nStep-by-step explanation\n\nReal learner story\n\nAudience Segment\n\nChoose the audience most likely to resonate with the idea.\n\nExamples:\n\nBeginner programmers\n\nCS students\n\nCareer switchers\n\nParents researching tech education\n\nDevelopers stuck in tutorial loops\n\nSelf-taught programmers\n\nVirality Potential\n\nEstimate the likely engagement level.\n\nUse one of these formats:\n\nHigh – broad relevance and strong emotional insight\nMedium-High – niche insight with strong value\nMedium – useful but specialized\nExperimental – interesting but less predictable engagement\n\nQuality Criteria\n\nStrong ideas should:\n\n• challenge common assumptions\n• reveal a hidden truth about learning\n• explain why something works\n• expose a common mistake\n• highlight mentorship or guidance\n• connect learning to real career outcomes\n\nAvoid:\n\n• generic advice\n• vague inspiration\n• motivational clichés\n• repetitive topics\n\nOutput Format\n\nReturn only a JSON array.\n\n[\n  {\n    \"Idea\": \"\",\n    \"Recommended Content Format\": \"\",\n    \"Audience Segment\": \"\",\n    \"Virality Potential\": \"\"\n  }\n]\n\nDo not include explanations, commentary, or extra text."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1088,
+        -432
+      ],
+      "id": "b02e998e-b339-4ff3-8450-a3e85308a05f",
+      "name": "Idea Generator1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"idea\": \"Idea\",\n  \"recommended_content_format\": \"Recommended Content Format\",\n  \"audience_segment\": \"Audience Segment\",\n  \"virality_potential\": \"Virality Potential\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1232,
+        -208
+      ],
+      "id": "6c8e65f0-5d7c-40a2-8be1-627e06203d90",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3-flash-preview",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        -208
+      ],
+      "id": "4e4b1266-dfbd-4461-aa1e-d6ec46498d22",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "Ozg5S0GqmEPM3LRU",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst ideasString = items\n  .map((item, i) => `Idea ${i + 1}: ${item.json.Idea}`)\n  .join(\", \");\n\nreturn [\n  {\n    json: {\n      ideas: ideasString\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        -432
+      ],
+      "id": "3ae98324-adfb-4c05-9a4a-9a4a6b83d716",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "apperWZCX3nJkpTFC",
+          "mode": "list",
+          "cachedResultName": "LinkedIn Imcoded",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblBhJgwmseHH9t7H",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/apperWZCX3nJkpTFC/tblBhJgwmseHH9t7H"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Status": "Todo",
+            "body": "=",
+            "Idea": "={{ $json.output.idea }}",
+            "Audience Segment": "={{ $json.output.audience_segment }}",
+            "Virality Potential": "={{ $json.output.virality_potential }}",
+            "Recommended Content Format": "={{ $json.output.recommended_content_format }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Assignee",
+              "displayName": "Assignee",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "options",
+              "options": [
+                {
+                  "name": "Todo",
+                  "value": "Todo"
+                },
+                {
+                  "name": "In progress",
+                  "value": "In progress"
+                },
+                {
+                  "name": "Done",
+                  "value": "Done"
+                }
+              ],
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Attachments",
+              "displayName": "Attachments",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Attachment Summary",
+              "displayName": "Attachment Summary",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Idea",
+              "displayName": "Idea",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Virality Potential",
+              "displayName": "Virality Potential",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Recommended Content Format",
+              "displayName": "Recommended Content Format",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Audience Segment",
+              "displayName": "Audience Segment",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": true
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1440,
+        -432
+      ],
+      "id": "75927957-8cbf-4794-b0f8-7253fe2892c8",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "SOd9FfBMwWdxWim0",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Create a new idea concept",
+        "height": 96
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        -368
+      ],
+      "typeVersion": 1,
+      "id": "414c9062-4615-4046-a027-9d89584dbea2",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 3
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        -400
+      ],
+      "id": "61a6c3f8-69a4-4380-8bda-ece1d480e96e",
+      "name": "Schedule1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Idea Generator": {
+      "main": [
+        [
+          {
+            "node": "Generate an image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Idea Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule": {
+      "main": [
+        [
+          {
+            "node": "Search records1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Save Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Data for Instagram API": {
+      "main": [
+        [
+          {
+            "node": "Create Instagram Media Container",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Instagram Media Container": {
+      "main": [
+        [
+          {
+            "node": "Wait for Container Processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Container Processing": {
+      "main": [
+        [
+          {
+            "node": "Publish Post to Instagram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Image": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Style": {
+      "main": [
+        [
+          {
+            "node": "OpenAI Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Past Ideas": {
+      "main": [
+        [
+          {
+            "node": "Join Ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Image": {
+      "main": [
+        [
+          {
+            "node": "Save Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule 2": {
+      "main": [
+        [
+          {
+            "node": "Search records",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publish Post": {
+      "main": [
+        [
+          {
+            "node": "Update record1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Pick One",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick One": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records1": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick One1": {
+      "main": [
+        [
+          {
+            "node": "Idea Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Idea Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate an image": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Update record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Pick One1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Publish Post",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Idea Generator1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Idea Generator1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search records2": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Idea Generator1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Idea Generator1": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule1": {
+      "main": [
+        [
+          {
+            "node": "Search records2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Asia/Kolkata",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "c6431893-e30a-48c2-adbf-e7434af56506",
+  "meta": {
+    "instanceId": "642d9792af72c391e9e4d4ffad9ab4e13152a326adfa361cdc2323cc2ba6387e"
+  },
+  "id": "gs92Y3wZFPCnmWyc",
+  "tags": []
+}
